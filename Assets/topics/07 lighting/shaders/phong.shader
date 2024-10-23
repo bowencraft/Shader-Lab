@@ -3,6 +3,7 @@
     Properties 
     {
         _surfaceColor ("surface color", Color) = (0.4, 0.1, 0.9)
+        _gloss ("gloss", Range(0,1)) = 0.5
     }
     SubShader
     {
@@ -19,7 +20,10 @@
             // might be UnityLightingCommon.cginc for later versions of unity
             #include "Lighting.cginc"
 
+            #define MAX_SPECULAR_POWER 256
+
             float3 _surfaceColor;
+            float _gloss;
 
             struct MeshData
             {
@@ -31,6 +35,7 @@
             {
                 float4 vertex : SV_POSITION;
                 float3 normal : TEXCOORD0;
+                float3 posWorld : TEXCOORD1;
             };
 
             Interpolators vert (MeshData v)
@@ -38,6 +43,7 @@
                 Interpolators o;
                 o.normal = UnityObjectToWorldNormal(v.normal);
                 o.vertex = UnityObjectToClipPos(v.vertex);
+                o.posWorld = mul(unity_ObjectToWorld, v.vertex).xyz;
                 return o;
             }
 
@@ -49,13 +55,20 @@
                 
                 float3 lightDirection = _WorldSpaceLightPos0;
                 float3 lightColor = _LightColor0; // includes intensity
+                float3 cameraPos = _WorldSpaceCameraPos.xyz;
 
                 float diffuseFalloff = max(0, dot(normal, lightDirection));
                 float3 diffuse = diffuseFalloff * _surfaceColor * lightColor;
 
+                float3 viewDirection = normalize(cameraPos - i.posWorld);
+                float3 lightReflectionDirection = reflect(-lightDirection, normal);
 
+                float specularFalloff = max(0, dot(viewDirection, lightReflectionDirection));
+                specularFalloff = pow(specularFalloff, MAX_SPECULAR_POWER * _gloss + 1) * _gloss;
 
-                color = diffuse;
+                float3 specular = specularFalloff * lightColor;
+                
+                color = specular + diffuse;
 
                 return float4(color, 1);
             }

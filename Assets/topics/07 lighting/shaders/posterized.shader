@@ -4,6 +4,9 @@
     {
         _surfaceColor ("surface color", Color) = (0.4, 0.1, 0.9)
         _gloss ("gloss", Range(0,1)) = 1
+        _diffuseLightSteps ("diffuse lgiht steps", Int) = 4
+        _specularLightSteps ("specular light steps", Int) = 2
+        _ambientColor ("ambient color", Color) = (0.1, 0.1, 0.1)
     }
     SubShader
     {
@@ -24,6 +27,10 @@
             
             float3 _surfaceColor;
             float _gloss;
+
+            int _diffuseLightSteps;
+            int _specularLightSteps;
+            float3 _ambientColor;
 
             struct MeshData
             {
@@ -65,12 +72,13 @@
                 float specularFalloff = max(0, dot(normal, halfDirection));
                 specularFalloff = pow(specularFalloff, _gloss * MAX_SPECULAR_POWER + 0.0001) * _gloss;
 
-
+                diffuseFalloff = floor(diffuseFalloff * _diffuseLightSteps) / _diffuseLightSteps;
+                specularFalloff = floor(specularFalloff * _specularLightSteps) / _specularLightSteps;
 
                 float3 diffuse = diffuseFalloff * _surfaceColor * lightColor;
                 float3 specular = specularFalloff * lightColor;
 
-                color = diffuse + specular;
+                color = diffuse + specular + _ambientColor;
 
                 return float4(color, 1.0);
             }

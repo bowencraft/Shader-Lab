@@ -61,9 +61,15 @@
                 float diffuseFalloff = max(0, dot(normal, lightDirection));
                 float3 diffuse = diffuseFalloff * _surfaceColor * lightColor;
 
+                float3 viewDirection = normalize(_WorldSpaceCameraPos.xyz - i.posWorld);
+                float3 halfDirection = normalize(viewDirection * lightDirection);
+
+                float specularFalloff = pow(max(0, dot(normal, halfDirection)), MAX_SPECULAR_POWER);
+                float3 specular = specularFalloff * _gloss * lightColor;
+
                 
 
-                color = diffuse;
+                color = diffuse + specular;
 
                 return float4(color, 1.0);
             }
