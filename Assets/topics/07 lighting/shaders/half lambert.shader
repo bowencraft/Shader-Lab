@@ -51,7 +51,9 @@
 
                 float falloff = max(0, dot(normal, lightDirection));
 
-                
+                float halfLambert = pow(falloff * 0.5 + 0.5, 2);
+
+                color = halfLambert * _surfaceColor * lightColor;
 
                 return float4(color, 1.0);
             }

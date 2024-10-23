@@ -2,12 +2,12 @@
 {
     Properties 
     {
-        _surfaceColor ("Surface Color", Color) = (0.4, 0.1, 0.9)
-        [Toggle] _normalMode ("Normal Mode", Range(0, 1)) = 0
+        _surfaceColor ("surface color", Color) = (0.4, 0.1, 0.9)
+        [Toggle] _normalMode ("normal mode", Float) = 0
     }
     SubShader
     {
-        Tags {"LightMode" = "ForwardBase"}
+        Tags {"LightMode"="ForwardBase"}
 
         Pass
         {
@@ -17,9 +17,8 @@
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
 
-            bool _normalMode;
-            
             float3 _surfaceColor;
+            float _normalMode;
 
             struct MeshData
             {
@@ -45,11 +44,11 @@
             {
                 float3 color = 0;
                 float3 normal = normalize(i.normal);
-
+                
                 float3 lightDirection = _WorldSpaceLightPos0;
                 float3 lightColor = _LightColor0;
 
-                float falloff = max(0,dot(lerp(i.normal, normal, _normalMode), lightDirection));
+                float falloff = max(0, dot(lerp(i.normal, normal, _normalMode), lightDirection));
                 float3 diffuse = falloff * _surfaceColor * lightColor;
 
                 color = diffuse;

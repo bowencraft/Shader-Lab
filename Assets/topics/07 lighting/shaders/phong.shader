@@ -3,7 +3,7 @@
     Properties 
     {
         _surfaceColor ("surface color", Color) = (0.4, 0.1, 0.9)
-        _gloss ("gloss", Range(0,1)) = 0.5
+        _gloss ("gloss", Range(0,1)) = 1
     }
     SubShader
     {
@@ -21,7 +21,7 @@
             #include "Lighting.cginc"
 
             #define MAX_SPECULAR_POWER 256
-
+            
             float3 _surfaceColor;
             float _gloss;
 
@@ -43,7 +43,7 @@
                 Interpolators o;
                 o.normal = UnityObjectToWorldNormal(v.normal);
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.posWorld = mul(unity_ObjectToWorld, v.vertex).xyz;
+                o.posWorld = mul(unity_ObjectToWorld, v.vertex);
                 return o;
             }
 
@@ -56,19 +56,20 @@
                 float3 lightDirection = _WorldSpaceLightPos0;
                 float3 lightColor = _LightColor0; // includes intensity
                 float3 cameraPos = _WorldSpaceCameraPos.xyz;
-
+                
                 float diffuseFalloff = max(0, dot(normal, lightDirection));
                 float3 diffuse = diffuseFalloff * _surfaceColor * lightColor;
 
+
                 float3 viewDirection = normalize(cameraPos - i.posWorld);
                 float3 lightReflectionDirection = reflect(-lightDirection, normal);
-
-                float specularFalloff = max(0, dot(viewDirection, lightReflectionDirection));
-                specularFalloff = pow(specularFalloff, MAX_SPECULAR_POWER * _gloss + 1) * _gloss;
+                float specularFalloff = max(0, dot(lightReflectionDirection, viewDirection));
+                specularFalloff = pow(specularFalloff, _gloss * MAX_SPECULAR_POWER + 1) * _gloss;
 
                 float3 specular = specularFalloff * lightColor;
                 
-                color = specular + diffuse;
+
+                color = diffuse + specular;
 
                 return float4(color, 1);
             }

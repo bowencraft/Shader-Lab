@@ -4,9 +4,9 @@
     {
         _surfaceColor ("surface color", Color) = (0.4, 0.1, 0.9)
         _gloss ("gloss", Range(0,1)) = 1
-        _diffuseLightSteps ("diffuse lgiht steps", Int) = 4
+        _diffuseLightSteps ("diffuse light steps", Int) = 4
         _specularLightSteps ("specular light steps", Int) = 2
-        _ambientColor ("ambient color", Color) = (0.1, 0.1, 0.1)
+        _ambientColor ("ambient color", Color) = (0.7, 0.05, 0.15)
     }
     SubShader
     {
@@ -27,7 +27,6 @@
             
             float3 _surfaceColor;
             float _gloss;
-
             int _diffuseLightSteps;
             int _specularLightSteps;
             float3 _ambientColor;
