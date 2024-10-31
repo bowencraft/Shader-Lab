@@ -9,12 +9,18 @@
         _gloss ("gloss", Range(0,1)) = 1
         _normalIntensity ("normal intensity", Range(0, 1)) = 1
         _displacementIntensity ("displacement intensity", Range(0, 0.5)) = 0
+        _refractionIntensity ("refraction intensity", Range(0, 0.5)) = 0.05
         _opacity ("opacity", Range(0,1)) = 1
     }
     SubShader
     {
         Tags { "LightMode"="ForwardBase" "Queue"="Transparent" "IgnoreProjector"="True"}
-
+        
+        GrabPass
+        {
+            "_BackgroundTex"
+        }
+        
         Pass
         {
             CGPROGRAM
@@ -31,11 +37,13 @@
             sampler2D _albedo; float4 _albedo_ST;
             sampler2D _normalMap;
             sampler2D _displacementMap;
+            sampler2D _BackgroundTex;
             
             float _gloss;
             float _normalIntensity;
             float _displacementIntensity;
             float _opacity;
+            float _refractionIntensity;
 
             struct MeshData
             {
@@ -53,6 +61,7 @@
                 float3 tangent : TEXCOORD2;
                 float3 bitangent : TEXCOORD3;
                 float3 posWorld : TEXCOORD4;
+                float4 screenUV : TEXCOORD5; 
             };
 
             Interpolators vert (MeshData v)
@@ -68,6 +77,7 @@
                 v.vertex.xyz += v.normal * height * _displacementIntensity;
                 
                 o.vertex = UnityObjectToClipPos(v.vertex);
+                o.screenUV = ComputeGrabScreenPos(o.vertex);
 
                 o.posWorld = mul(unity_ObjectToWorld, v.vertex);
                 
@@ -79,12 +89,17 @@
                 float2 uv = i.uv;
                 float3 color = 0;
                 
-
+                float2 screenUV = i.screenUV.xy / i.screenUV.w;
+                
                 
                 float3 tangentSpaceNormal = UnpackNormal(tex2D(_normalMap, uv));
                 tangentSpaceNormal = normalize(lerp(float3(0, 0, 1), tangentSpaceNormal, _normalIntensity));
                 
 
+
+                float2 refractionUV = screenUV + (tangentSpaceNormal.xy * _refractionIntensity);
+                float3 background = tex2D(_BackgroundTex, refractionUV);
+                
                 float3x3 tangentToWorld = float3x3 
                 (
                     i.tangent.x, i.bitangent.x, i.normal.x,
@@ -95,6 +110,10 @@
                 float3 normal = mul(tangentToWorld, tangentSpaceNormal);
 
 
+                
+                
+
+                
                 // blinn phong
                 float3 surfaceColor = tex2D(_albedo, uv).rgb;
 
@@ -113,6 +132,8 @@
 
                 color = diffuse + specular;
 
+                color = lerp(background, color, _opacity);
+                
                 return float4(color, 1);
             }
             ENDCG

@@ -4,9 +4,10 @@
     {
         _albedo ("albedo", 2D) = "white" {}
         [NoScaleOffset] _normalMap ("normal map", 2D) = "bump" {}
-
+        [NoScaleOffset] _displacementMap ("displacement map", 2D) = "gray" {}
         _gloss ("gloss", Range(0,1)) = 1
         _normalIntensity ("normal intensity", Range(0, 1)) = 1
+        _displacementIntensity ("displacement intensity", Range(0, 0.5)) = 0
     }
     SubShader
     {
@@ -27,8 +28,10 @@
 
             sampler2D _albedo; float4 _albedo_ST;
             sampler2D _normalMap;
+            sampler2D _displacementMap;
             float _gloss;
             float _normalIntensity;
+            float _displacementIntensity;
 
             struct MeshData
             {
@@ -58,6 +61,10 @@
                 o.normal = UnityObjectToWorldNormal(v.normal);
                 o.tangent = UnityObjectToWorldNormal(v.tangent);
                 o.bitangent = cross(o.normal, o.tangent) * v.tangent.w;
+
+                float height = tex2Dlod(_displacementMap, float4(o.uv, 0, 0)).r * 2 - 1;
+                v.vertex.xyz += v.normal * height * _displacementIntensity;
+
                 
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.posWorld = mul(unity_ObjectToWorld, v.vertex);

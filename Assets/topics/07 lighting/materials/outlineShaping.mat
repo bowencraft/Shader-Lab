@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: outlineShaping
-  m_Shader: {fileID: 4800000, guid: 15eff5dbedcdb49a1a90fd7dab3e81bf, type: 3}
+  m_Shader: {fileID: 4800000, guid: 9f2154b89d7ce4f98a6b149ee619c9eb, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -86,10 +86,15 @@ Material:
     - _Threshold: 1
     - _UVSec: 0
     - _ZWrite: 1
+    - _diffuseLightSteps: 4
+    - _gloss: 1
+    - _specularLightSteps: 2
     m_Colors:
     - _AmbientColor: {r: 0.01886791, g: 0.01886791, b: 0.01886791, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 1, g: 0.8436658, b: 0.5896226, a: 1}
     - _SurfaceColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ambientColor: {r: 0.7, g: 0.05, b: 0.15, a: 1}
+    - _surfaceColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

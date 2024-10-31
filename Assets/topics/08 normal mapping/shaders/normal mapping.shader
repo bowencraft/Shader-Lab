@@ -3,8 +3,9 @@
     Properties 
     {
         _albedo ("albedo", 2D) = "white" {}
-
+        [NoScaleOffset] _normalMap ("normal map", 2D) = "bump" {}
         _gloss ("gloss", Range(0,1)) = 1
+        _normalIntensity ("normal intensity", Range(0,1)) = 1
     }
     SubShader
     {
@@ -25,12 +26,14 @@
 
             sampler2D _albedo; float4 _albedo_ST;
             float _gloss;
+            sampler2D _normalMap;
+            float _normalIntensity;
 
             struct MeshData
             {
                 float4 vertex : POSITION;
                 float3 normal : NORMAL;
-                
+                float4 tangent : TANGENT;
                 float2 uv : TEXCOORD0;
             };
 
@@ -39,7 +42,8 @@
                 float4 vertex : SV_POSITION;
                 float2 uv : TEXCOORD0;
                 float3 normal : TEXCOORD1;
-                
+                float3 tangent : TEXCOORD2;
+                float3 bitangent : TEXCOORD3;
                 float3 worldPos : TEXCOORD4;
             };
 
@@ -51,6 +55,8 @@
                 o.uv = TRANSFORM_TEX(v.uv, _albedo);
                 
                 o.normal = UnityObjectToWorldNormal(v.normal);
+                o.tangent = UnityObjectToWorldNormal(v.tangent);
+                o.bitangent = cross(o.normal, o.tangent) * v.tangent.w;
                 
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex);
@@ -83,8 +89,22 @@
             {
                 float2 uv = i.uv;
                 float3 color = 0;
+
                 
-                color = blinnphong(uv, i.normal, i.worldPos);
+
+                float3 tangentSpaceNormal = UnpackNormal(tex2D(_normalMap, uv));
+                tangentSpaceNormal = normalize(lerp(float3(0, 0, 1), tangentSpaceNormal, _normalIntensity));
+
+                float3x3 tangentToWorld = float3x3 (
+                    i.tangent.x, i.bitangent.x, i.normal.x,
+                    i.tangent.y, i.bitangent.y, i.normal.y,
+                    i.tangent.z, i.bitangent.z, i.normal.z
+                );
+
+                float3 normal = mul(tangentToWorld, tangentSpaceNormal);
+                
+                
+                color = blinnphong(uv, normal, i.worldPos);
                 return float4(color, 1.0);
             }
             ENDCG
