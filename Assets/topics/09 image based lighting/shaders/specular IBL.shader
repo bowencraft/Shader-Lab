@@ -103,9 +103,8 @@
 
 
 
-                float3 surfaceColor = tex2D(_albedo, uv).rgb;
-
-
+                // float3 surfaceColor = tex2D(_albedo, uv).rgb;
+                float3 surfaceColor = lerp(0, tex2D(_albedo, uv).rgb, 1-_reflectivity);
 
                 float3 lightDirection = _WorldSpaceLightPos0;
                 float3 lightColor = _LightColor0; // includes intensity
@@ -116,7 +115,8 @@
                 // viewDirection is pointing toward the camera
                 float3 viewReflection = reflect(-viewDirection, normal);
                 
-
+                float mip = (1 - _gloss) * SPECULAR_MIP_STEPS;
+                float3 indirectSpecular = texCUBElod(_IBL, float4(viewReflection, mip));
 
 
 
@@ -129,7 +129,7 @@
                 float3 directSpecular = pow(specularFalloff, _gloss * MAX_SPECULAR_POWER + 0.0001) * lightColor * _gloss;
                 
                 
-                float3 specular = directSpecular;
+                float3 specular = directSpecular + indirectSpecular * _reflectivity;
                 
                
                 float3 indirectDiffuse = texCUBElod(_IBL, float4(normal, DIFFUSE_MIP_LEVEL));

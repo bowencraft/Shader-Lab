@@ -31,6 +31,7 @@
             samplerCUBE _IBL;
             float _gloss;
             float _reflectivity;
+            float _fresnelPower;
 
             struct MeshData
             {
@@ -74,9 +75,12 @@
                 float mip = (1 - _gloss) * SPECULAR_MIP_STEPS;
                 float3 indirectSpecular = texCUBElod(_IBL, float4(viewReflection, mip)) * _reflectivity;
 
+                float fresnel = 1 - saturate(dot(viewDirection, normal));
+                fresnel = pow(fresnel, _fresnelPower);
 
+                color = fresnel.rrr;
 
-                color = indirectSpecular;
+                // color = indirectSpecular;
 
                 return float4(color, 1.0);
             }

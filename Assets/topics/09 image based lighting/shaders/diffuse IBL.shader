@@ -5,7 +5,7 @@
         _albedo ("albedo", 2D) = "white" {}
         [NoScaleOffset] _normalMap ("normal map", 2D) = "bump" {}
         [NoScaleOffset] _displacementMap ("displacement map", 2D) = "gray" {}
-
+        [NoScaleOffset] _IBL ("IBL cube map", Cube) = "black" {}
         _gloss ("gloss", Range(0,1)) = 1
         _normalIntensity ("normal intensity", Range(0, 1)) = 1
         _displacementIntensity ("displacement intensity", Range(0, 0.5)) = 0
@@ -25,11 +25,13 @@
             // might be UnityLightingCommon.cginc for later versions of unity
             #include "Lighting.cginc"
 
+            #define DIFFUSE_MIP_LEVEL 5
             #define MAX_SPECULAR_POWER 256
 
             sampler2D _albedo; float4 _albedo_ST;
             sampler2D _normalMap;
             sampler2D _displacementMap;
+            samplerCUBE _IBL;
             float _gloss;
             float _normalIntensity;
             float _displacementIntensity;
@@ -103,11 +105,11 @@
 
                 float3 specular = pow(specularFalloff, _gloss * MAX_SPECULAR_POWER + 0.0001) * lightColor * _gloss;
 
-
-
-
-                float3 diffuse = surfaceColor * directDiffuse * lightColor;
-
+                float3 indirectDiffuse = texCUBElod(_IBL, float4(normal, DIFFUSE_MIP_LEVEL));
+                // return float4(indirectDiffuse, 1);
+                
+                // float3 diffuse = surfaceColor * directDiffuse * lightColor; // mipmap
+                float3 diffuse = surfaceColor * (directDiffuse * lightColor + indirectDiffuse);
 
                 color = diffuse + specular;
 
