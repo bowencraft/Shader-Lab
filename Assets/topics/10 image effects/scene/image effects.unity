@@ -395,6 +395,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectMaterial: {fileID: 2100000, guid: 26349ec62a56849fbabbc95d0af131d4, type: 2}
+  iterations: 8
+  downRes: 0
 --- !u!81 &305803652
 AudioListener:
   m_ObjectHideFlags: 0
@@ -474,7 +476,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &317854477
 Transform:
   m_ObjectHideFlags: 0
@@ -497,12 +499,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 317854476}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0f6c74251e39474b86ddc60783611a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectMaterial: {fileID: 0}
+  effectMaterial: {fileID: 2100000, guid: 1366426c4f37047e9858c7b73824cf22, type: 2}
 --- !u!114 &317854479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,12 +512,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 317854476}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79f267f5008994836b4c952be200ba72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectMaterial: {fileID: 2100000, guid: 20a4770b83841478583ec7dac7af77a8, type: 2}
+  effectMaterial: {fileID: 2100000, guid: acc0d20c9f17d4145ac72847b8c43b92, type: 2}
+  iterations: 0
+  downRes: 3
 --- !u!81 &317854480
 AudioListener:
   m_ObjectHideFlags: 0
@@ -582,12 +586,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 317854476}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0f6c74251e39474b86ddc60783611a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectMaterial: {fileID: 0}
+  effectMaterial: {fileID: 2100000, guid: 78be386b3b7bb41d1ae7ada16117fadc, type: 2}
 --- !u!1 &456016375
 GameObject:
   m_ObjectHideFlags: 0
@@ -1068,6 +1072,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectMaterial: {fileID: 2100000, guid: acc0d20c9f17d4145ac72847b8c43b92, type: 2}
+  iterations: 2
+  downRes: 3
 --- !u!81 &1133775402
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1139,7 +1145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0f6c74251e39474b86ddc60783611a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectMaterial: {fileID: 0}
+  effectMaterial: {fileID: 2100000, guid: acc0d20c9f17d4145ac72847b8c43b92, type: 2}
 --- !u!1 &1192914425 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e8202a8098bee4ee4a4c5077c3a43617, type: 3}
@@ -1282,7 +1288,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1966931538
 Transform:
   m_ObjectHideFlags: 0
