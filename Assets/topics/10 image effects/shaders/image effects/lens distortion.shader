@@ -3,6 +3,8 @@
     Properties
     {
         _MainTex ("render texture", 2D) = "white"{}
+        _distortion ("distortion", Range(-1,1)) = -0.5
+        _scale ("scale", Range(0,3)) = 0.5
     }
 
     SubShader
@@ -19,6 +21,9 @@
             #include "UnityCG.cginc"
 
             sampler2D _MainTex;
+            float _distortion;
+            float _scale;
+            
 
             struct MeshData
             {
@@ -43,8 +48,13 @@
             float4 frag (Interpolators i) : SV_Target
             {
                 float3 color = 0;
-                float2 uv = i.uv;
+                float2 uv = i.uv - 0.5;
 
+                float radius = pow(length(uv), 2);
+
+                float distort = 1 + radius * _distortion;
+
+                uv = uv * distort * _scale + 0.5;
 
                 color = tex2D(_MainTex, uv);
 

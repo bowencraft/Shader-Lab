@@ -2,20 +2,24 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: posterized color replace
   m_Shader: {fileID: 4800000, guid: 1ea7796b97bce4ce4bc69eda5590879b, type: 3}
-  m_ShaderKeywords: 
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -24,14 +28,16 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _recolor:
-        m_Texture: {fileID: 2800000, guid: cb4c647b2a06b41c3925d8a5e0511173, type: 3}
+        m_Texture: {fileID: 2800000, guid: 37d69a8f7cc3e4996ac5edbc9e90b2e3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _diffuseLightSteps: 4
     - _gloss: 1
     - _specularLightSteps: 2
-    - _steps: 10.8
+    - _steps: 13.9
     m_Colors:
     - _ambientColor: {r: 0.7, g: 0.05, b: 0.15, a: 1}
     - _surfaceColor: {r: 0.4, g: 0.1, b: 0.9, a: 1}
+  m_BuildTextureStacks: []
