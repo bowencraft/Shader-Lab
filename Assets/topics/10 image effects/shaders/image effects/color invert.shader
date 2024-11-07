@@ -14,6 +14,8 @@
             #pragma fragment frag
             #include "UnityCG.cginc"
 
+            sampler2D _MainTex;
+
 
             struct MeshData
             {
@@ -39,6 +41,8 @@
             {
                 float3 color = 0;
 
+                color = 1 - tex2D(_MainTex, i.uv);
+                
                 return float4(color, 1.0);
             }
             ENDCG

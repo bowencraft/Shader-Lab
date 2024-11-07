@@ -3,6 +3,8 @@
     Properties
     {
         _MainTex ("render texture", 2D) = "white"{}
+        
+        _Resolution ("resolution", Float) = 1.0
     }
 
     SubShader
@@ -27,6 +29,7 @@
             #include "UnityCG.cginc"
 
             sampler2D _MainTex;
+            float _Resolution;
 
             struct MeshData
             {
@@ -53,6 +56,13 @@
                 float3 color = 0;
                 
                 float2 uv = i.uv;
+
+                float aspect = _ScreenParams.x / _ScreenParams.y;
+                uv.x *= aspect;
+
+                uv = floor(uv * _Resolution) / _Resolution;
+
+                uv.x /= aspect;
 
 
                 color = tex2D(_MainTex, uv);

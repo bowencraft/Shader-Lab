@@ -3,6 +3,7 @@
     Properties
     {
         _MainTex ("render texture", 2D) = "white"{}
+        _intensity ("intensity", Range(0,1)) = 0.2
     }
 
     SubShader
@@ -18,8 +19,9 @@
             #pragma fragment frag
             #include "UnityCG.cginc"
 
-
+            #define MAX_OFFSET 0.15
             sampler2D _MainTex;
+            float _intensity;
 
             struct MeshData
             {
@@ -46,6 +48,13 @@
                 float3 color = 0;
                 float2 uv = i.uv;
 
+                float offset = MAX_OFFSET * _intensity;
+
+                float r = tex2D(_MainTex, uv + float2(offset, 0)).r;
+                float g = tex2D(_MainTex, uv + float2(0, 0)).g;
+                float b = tex2D(_MainTex, uv + float2(-offset, 0)).b;
+
+                color = float3(r, g, b);
 
                 return float4(color, 1.0);
             }
