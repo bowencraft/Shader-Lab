@@ -106,10 +106,11 @@
                 float3 specular = pow(specularFalloff, _gloss * MAX_SPECULAR_POWER + 0.0001) * lightColor * _gloss;
 
                 float3 indirectDiffuse = texCUBElod(_IBL, float4(normal, DIFFUSE_MIP_LEVEL));
-                // return float4(indirectDiffuse, 1);
                 
-                // float3 diffuse = surfaceColor * directDiffuse * lightColor; // mipmap
+
+
                 float3 diffuse = surfaceColor * (directDiffuse * lightColor + indirectDiffuse);
+
 
                 color = diffuse + specular;
 

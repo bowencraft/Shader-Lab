@@ -50,9 +50,9 @@ Material:
     m_Ints: []
     m_Floats:
     - _displacementIntensity: 0.5
-    - _gloss: 1
-    - _normalIntensity: 0.94
-    - _reflectivity: 0.74
+    - _gloss: 0.9
+    - _normalIntensity: 0.357
+    - _reflectivity: 0.8
     - _specularContrast: 32
     - _specularIntensity: 1
     m_Colors: []

@@ -6,7 +6,6 @@
         [NoScaleOffset] _normalMap ("normal map", 2D) = "bump" {}
         [NoScaleOffset] _displacementMap ("displacement map", 2D) = "gray" {}
         [NoScaleOffset] _IBL ("IBL cube map", Cube) = "black" {}
-        [NoScaleOffset] _roughness ("roughness map", 2D) = "white" {}
         
         // how smooth the surface is - sharpness of specular reflection
         _gloss ("gloss", Range(0,1)) = 1
@@ -41,7 +40,6 @@
             sampler2D _albedo; float4 _albedo_ST;
             sampler2D _normalMap;
             sampler2D _displacementMap;
-            sampler2D _roughness;
             samplerCUBE _IBL;
             float _gloss;
             float _reflectivity;
@@ -106,13 +104,13 @@
 
                 float3 viewDirection = normalize(_WorldSpaceCameraPos.xyz - i.posWorld);
                 
+
                 float fresnel = 1 - saturate(dot(viewDirection, normal));
                 fresnel = pow(fresnel, _fresnelPower);
-
-
+            
 
                 // since fresnel affects reflectivity, we'll use it to modify the reflectivity variable
-                float reflectivity = _reflectivity;
+                float reflectivity = _reflectivity * fresnel;
 
 
 
@@ -128,12 +126,10 @@
                 // make view direction negative because reflect takes an incidence vector meanining, it is point toward the surface
                 // viewDirection is pointing toward the camera
                 float3 viewReflection = reflect(-viewDirection, normal);
-
-                float roughness = tex2D(_roughness, uv).r;
                 
                 // gloss value corresponds to how smooth or rough a surface is
                 // the smoother the surface the sharper the specular reflection
-                float mip = roughness * SPECULAR_MIP_STEPS;
+                float mip = (1 - _gloss) * SPECULAR_MIP_STEPS;
                 float3 indirectSpecular = texCUBElod(_IBL, float4(viewReflection, mip));
 
                 float3 halfDirection = normalize(viewDirection + lightDirection);
@@ -142,7 +138,7 @@
                 float specularFalloff = max(0, dot(normal, halfDirection));
                 
                 // the specular power, which controls the sharpness of the direct specular light is dependent on the glossiness (smoothness)
-                float3 directSpecular = pow(specularFalloff, (1-roughness) * MAX_SPECULAR_POWER + 0.0001) * lightColor * (1-roughness);
+                float3 directSpecular = pow(specularFalloff, _gloss * MAX_SPECULAR_POWER + 0.0001) * lightColor * _gloss;
 
                 float3 specular = directSpecular + indirectSpecular * reflectivity;
                
@@ -151,7 +147,6 @@
 
                 color = diffuse + specular;
 
-                // return float4(roughness.rrr, 1);
                 return float4(color, 1.0);
             }
             ENDCG

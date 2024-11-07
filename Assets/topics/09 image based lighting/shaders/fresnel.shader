@@ -9,6 +9,7 @@
 
         // reflectivity of surface - brightness of reflection
         _reflectivity ("reflectivity", Range(0,1)) = 0.5
+        _fresnelPower ("fresnel power", Range(0,10)) = 5
 
     }
     SubShader
@@ -73,14 +74,16 @@
                 // viewDirection is pointing toward the camera
                 float3 viewReflection = reflect(-viewDirection, normal);
                 float mip = (1 - _gloss) * SPECULAR_MIP_STEPS;
-                float3 indirectSpecular = texCUBElod(_IBL, float4(viewReflection, mip)) * _reflectivity;
+                float3 indirectSpecular = texCUBElod(_IBL, float4(viewReflection, mip)) * _reflectivity ;
 
-                float fresnel = 1 - saturate(dot(viewDirection, normal));
+
+                float fresnel = 1-saturate(dot(viewDirection, normal));
                 fresnel = pow(fresnel, _fresnelPower);
+                
 
-                color = fresnel.rrr;
+                
 
-                // color = indirectSpecular;
+                color = indirectSpecular * fresnel;
 
                 return float4(color, 1.0);
             }

@@ -10,11 +10,10 @@
 
     SubShader
     {
-        Tags {"Queue" = "Background" "RenderType"="Background" "PreviewType"="Skybox" }
-        Cull off
-        ZWrite off
-        
-            
+        Tags {"Queue"="Background" "RenderType" = "Background" "PreviewType" = "Skybox"}
+        Cull Off
+        ZWrite Off
+
         Pass
         {
             CGPROGRAM
@@ -27,7 +26,6 @@
             float _offset;
             float _contrast;
 
-
             struct MeshData
             {
                 float4 vertex : POSITION;
@@ -39,7 +37,6 @@
                 float4 vertex : SV_POSITION;
                 float3 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
-                
             };
 
             Interpolators vert (MeshData v)
@@ -55,14 +52,11 @@
             {
                 float3 color = 0;
 
-                // color = i.uv;
-                // color = i.worldPos;
                 float3 coord = normalize(i.uv) * 0.5 + 0.5;
-                color = coord;
 
                 float lerpValue = smoothstep(0, 1, pow(coord.y + _offset, _contrast));
                 color = lerp(_colorLow, _colorHigh, lerpValue);
-                
+
                 return float4(color, 1.0);
             }
             ENDCG

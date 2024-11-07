@@ -46,9 +46,9 @@ Material:
     m_Ints: []
     m_Floats:
     - _displacementIntensity: 0.263
-    - _fresnelPower: 0.6
+    - _fresnelPower: 1.26
     - _gloss: 0.859
     - _normalIntensity: 0.425
-    - _reflectivity: 1
+    - _reflectivity: 0.397
     m_Colors: []
   m_BuildTextureStacks: []

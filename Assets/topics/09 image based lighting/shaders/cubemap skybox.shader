@@ -2,7 +2,7 @@
 {
     Properties 
     {
-        [NoScaleOffset] _texCube ("cube map", Cube) = "" {}
+        [NoScaleOffset] _texCube ("cube map", Cube) = "black" {}
     }
 
     SubShader
@@ -17,9 +17,9 @@
             #pragma vertex vert
             #pragma fragment frag
             #include "UnityCG.cginc"
-            
-            samplerCUBE _texCube;
 
+            samplerCUBE _texCube;
+            
             struct MeshData
             {
                 float4 vertex : POSITION;
@@ -43,8 +43,7 @@
             float4 frag (Interpolators i) : SV_Target
             {
                 float3 color = 0;
-                color = texCUBElod(_texCube, float4(i.objPos, 0.0));
-
+                color = texCUBElod(_texCube, float4(i.objPos, 0));
                 return float4(color, 1.0);
             }
             ENDCG

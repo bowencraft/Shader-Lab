@@ -64,13 +64,12 @@
                 float3 normal = normalize(i.normal);
 
                 float3 viewDirection = normalize(_WorldSpaceCameraPos.xyz - i.posWorld);
-
+                
                 float3 viewReflection = reflect(-viewDirection, normal);
 
                 float mip = (1 - _gloss) * SPECULAR_MIP_STEPS;
                 // float3 indirectSpecular = texCUBElod(_IBL, float4(viewReflection, mip));
                 float3 indirectSpecular = UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, viewReflection, mip);
-                
                 color = indirectSpecular * _reflectivity;
                 
                 return float4(color, 1.0);

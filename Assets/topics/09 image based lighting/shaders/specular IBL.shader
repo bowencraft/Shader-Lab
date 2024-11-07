@@ -103,19 +103,20 @@
 
 
 
-                // float3 surfaceColor = tex2D(_albedo, uv).rgb;
                 float3 surfaceColor = lerp(0, tex2D(_albedo, uv).rgb, 1-_reflectivity);
+
+
 
                 float3 lightDirection = _WorldSpaceLightPos0;
                 float3 lightColor = _LightColor0; // includes intensity
 
                 float3 viewDirection = normalize(_WorldSpaceCameraPos.xyz - i.posWorld);
                 
-                // make view direction negative because reflect takes an incidence vector meanining, it is point toward the surface
+                // make view direction negative because reflect takes an incidence vector meaning, it is point toward the surface
                 // viewDirection is pointing toward the camera
                 float3 viewReflection = reflect(-viewDirection, normal);
                 
-                float mip = (1 - _gloss) * SPECULAR_MIP_STEPS;
+                float mip = (1-_gloss) * SPECULAR_MIP_STEPS;
                 float3 indirectSpecular = texCUBElod(_IBL, float4(viewReflection, mip));
 
 

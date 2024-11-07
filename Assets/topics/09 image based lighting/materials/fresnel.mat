@@ -29,7 +29,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _fresnelPower: 2.93
+    - _fresnelPower: 2.48
     - _gloss: 1
     - _reflectivity: 1
     m_Colors: []
