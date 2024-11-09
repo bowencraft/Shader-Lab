@@ -26,7 +26,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _contrast: 7.7
-    - _offset: 0.347
+    - _offset: 0.368
     m_Colors:
     - _colorHigh: {r: 1, g: 0.56078434, b: 0.7877666, a: 1}
     - _colorLow: {r: 0.0039215684, g: 0.25490198, b: 0.24600592, a: 1}

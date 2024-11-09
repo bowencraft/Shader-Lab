@@ -24,7 +24,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _IBL:
-        m_Texture: {fileID: 8900000, guid: 67fc12ac8848a42579f4c8216a65af7a, type: 3}
+        m_Texture: {fileID: 8900000, guid: 11efb027d7a174f42aa2d89077a48a63, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _albedo:
@@ -50,7 +50,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _displacementIntensity: 0
-    - _gloss: 0
+    - _gloss: 0.539
     - _normalIntensity: 0.175
     - _reflectivity: 1
     - _specularContrast: 32

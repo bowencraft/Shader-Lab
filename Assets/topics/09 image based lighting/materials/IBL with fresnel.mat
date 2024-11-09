@@ -8,8 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: IBL with fresnel
-  m_Shader: {fileID: 4800000, guid: 1fd9dddbaa37d41aa91e3caee4cc86ca, type: 3}
-  m_Parent: {fileID: 0}
+  m_Shader: {fileID: 4800000, guid: b286fc326424848feb063d76cb623941, type: 3}
+  m_Parent: {fileID: 2100000, guid: 961e03f1240fc4edfa78c2287d7f27bb, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -23,27 +23,14 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _IBL:
-        m_Texture: {fileID: 8900000, guid: 67fc12ac8848a42579f4c8216a65af7a, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _albedo:
-        m_Texture: {fileID: 2800000, guid: e602f0d52907543abb61acfe3294c77e, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _displacementMap:
-        m_Texture: {fileID: 2800000, guid: 558ab00108751416e8602b6f6da470a6, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _normalMap:
-        m_Texture: {fileID: 2800000, guid: fec17e2837efd489b8f67971177a1f22, type: 3}
+    - _roughness:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _displacementIntensity: 0.332
     - _fresnelPower: 4.75
-    - _gloss: 0.859
     - _normalIntensity: 0.363
     - _reflectivity: 0.384
     m_Colors: []
