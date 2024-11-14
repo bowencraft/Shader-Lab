@@ -51,10 +51,10 @@
                 float offset = MAX_OFFSET * _intensity;
 
                 float r = tex2D(_MainTex, uv + float2(offset, 0)).r;
-                float g = tex2D(_MainTex, uv + float2(0, 0)).g;
-                float b = tex2D(_MainTex, uv + float2(-offset, 0)).b;
+                float g = tex2D(_MainTex, uv).g;
+                float b = tex2D(_MainTex, uv - float2(offset, 0)).b;
 
-                color = float3(r, g, b);
+                color = float3(r,g,b);
 
                 return float4(color, 1.0);
             }

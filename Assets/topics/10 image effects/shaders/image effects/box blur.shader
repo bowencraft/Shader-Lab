@@ -18,10 +18,7 @@
             #pragma fragment frag
             #include "UnityCG.cginc"
 
-            sampler2D _MainTex;
-
-            // add _MainTex_TexelSize
-            float4 _MainTex_TexelSize;
+            sampler2D _MainTex; float4 _MainTex_TexelSize;
 
             struct MeshData
             {
@@ -52,21 +49,20 @@
                     .11, .11, .11,
                     .11, .11, .11,
                     .11, .11, .11
-                    );
+                );
 
-                float2 ts = _MainTex_TexelSize.xy;
+                float2 ts = _MainTex_TexelSize.xy; 
 
-                for (int x = -1; x <= 1; x++)
+                for(int x = -1; x <= 1; x++)
                 {
-                    for (int y = -1; y <= 1; y++)
+                    for(int y = -1; y <= 1; y++)
                     {
-                        // color += tex2D(_MainTex, uv + float2(x, y) * ts).rgb * boxBlurKernel[x + 1][y + 1];
-                        float2 offset = float2(x, y) * ts;
+                        float2 offset = float2(x,y) * ts;
                         float3 sample = tex2D(_MainTex, uv + offset);
                         color += sample * boxBlurKernel[x + 1][y + 1];
                     }
                 }
-
+                
                 return float4(color, 1.0);
             }
             ENDCG

@@ -2,9 +2,9 @@
 {
     Properties 
     {
-        _MainTex ("render texture", 2D) = "white"{}
-        _steps("steps", Range(1, 16)) = 16
-        _recolor ("recolor reference", 2D) = "gray"{}
+        _MainTex ("render texture", 2D) = "white" {}
+        _steps ("steps", Range(1, 16)) = 16
+        _recolor ("recolor reference", 2D) = "gray" {}
     }
     SubShader
     {
@@ -54,13 +54,12 @@
                 
                 float3 weights = float3(0.299, 0.587, 0.114);
                 float grayscale = dot(sample, weights);
+                // s.x * w.x + s.y * w.y + s.z + w.z
 
                 grayscale = floor(grayscale * _steps) / _steps;
 
-                // color = grayscale;
-                // color = (sample.r + sample.g + sample.b) / 3.0;
-                color = tex2D(_recolor, float2(grayscale, 0.5));
-
+                color = tex2D(_recolor, float2(grayscale, 3));
+                    
                 return float4(color, 1.0);
             }
             ENDCG

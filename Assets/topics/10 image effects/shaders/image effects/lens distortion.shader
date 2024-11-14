@@ -3,8 +3,8 @@
     Properties
     {
         _MainTex ("render texture", 2D) = "white"{}
-        _distortion ("distortion", Range(-1,1)) = -0.5
-        _scale ("scale", Range(0,3)) = 0.5
+        _distortion ("distortion", Range(-1, 1)) = -0.5
+        _scale ("scale", Range(0, 3)) = 1
     }
 
     SubShader
@@ -21,9 +21,9 @@
             #include "UnityCG.cginc"
 
             sampler2D _MainTex;
+            
             float _distortion;
             float _scale;
-            
 
             struct MeshData
             {

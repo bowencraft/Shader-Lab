@@ -395,7 +395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectMaterial: {fileID: 2100000, guid: 26349ec62a56849fbabbc95d0af131d4, type: 2}
-  iterations: 8
+  iterations: 2
   downRes: 0
 --- !u!81 &305803652
 AudioListener:
@@ -518,7 +518,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectMaterial: {fileID: 2100000, guid: acc0d20c9f17d4145ac72847b8c43b92, type: 2}
-  iterations: 0
+  iterations: 1
   downRes: 3
 --- !u!81 &317854480
 AudioListener:
@@ -1072,7 +1072,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectMaterial: {fileID: 2100000, guid: acc0d20c9f17d4145ac72847b8c43b92, type: 2}
-  iterations: 2
+  iterations: 5
   downRes: 3
 --- !u!81 &1133775402
 AudioListener:

@@ -3,8 +3,7 @@
     Properties
     {
         _MainTex ("render texture", 2D) = "white"{}
-        
-        _Resolution ("resolution", Float) = 1.0
+        _resolution ("resolution", Int) = 256
     }
 
     SubShader
@@ -29,7 +28,7 @@
             #include "UnityCG.cginc"
 
             sampler2D _MainTex;
-            float _Resolution;
+            int _resolution;
 
             struct MeshData
             {
@@ -54,16 +53,14 @@
             float4 frag (Interpolators i) : SV_Target
             {
                 float3 color = 0;
-                
                 float2 uv = i.uv;
 
                 float aspect = _ScreenParams.x / _ScreenParams.y;
                 uv.x *= aspect;
 
-                uv = floor(uv * _Resolution) / _Resolution;
+                uv = floor(uv * _resolution) / _resolution;
 
                 uv.x /= aspect;
-
 
                 color = tex2D(_MainTex, uv);
 
