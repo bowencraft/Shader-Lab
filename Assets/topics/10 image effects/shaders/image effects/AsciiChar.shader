@@ -1,91 +1,91 @@
 Shader "Custom/AsciiChar"
 {
-	Properties
-	{
-		_MainTex ("Texture", 2D) = "white" {}
+    Properties
+    {
+        _MainTex ("Texture", 2D) = "white" {}
+        [Toggle] _EnableAscii ("Enable Ascii", float) = 1
+        _Ascii ("Ascii Texture", 2D) = "white" {}
+        _AsciiSplit ("Ascii Split", float) = 18
+        _Strength ("Strength", Range(1, 100)) = 10
+        _steps ("steps", Range(1, 16)) = 16
+        _Recolor ("Recolor Reference", 2D) = "gray" {}
+    }
+    SubShader
+    {
+        Tags { "RenderType"="Opaque" }
+        LOD 100
 
-		[Toggle] _EnableAscii ("Enable Ascii", float) = 1
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
 
-		_Ascii ("Ascii Texture", 2D) = "white" {}
+            #include "UnityCG.cginc"
 
-		_AsciiSplit ("Ascii Split", float) = 18
+            struct appdata
+            {
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+            };
 
-		_Strength ("Strength", range(1, 100)) = 10
-	}
-	SubShader
-	{
-		Tags { "RenderType"="Opaque" }
-		LOD 100
+            struct v2f
+            {
+                float2 uv : TEXCOORD0;
+                float4 vertex : SV_POSITION;
+            };
 
-		Pass
-		{
-			CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment frag
+            sampler2D _MainTex;
+            sampler2D _Ascii;
+            sampler2D _Recolor;
 
-			#pragma enable_d3d11_debug_symbols
-			
-			#include "UnityCG.cginc"
+            float4 _MainTex_ST;
+            float _EnableAscii;
+            float _Strength;
+            float _AsciiSplit;
+            int _steps;
 
-			struct appdata
-			{
-				float4 vertex : POSITION;
-				float2 uv : TEXCOORD0;
-			};
+            v2f vert (appdata v)
+            {
+                v2f o;
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                return o;
+            }
 
-			struct v2f
-			{
-				float2 uv : TEXCOORD0;
-				float4 vertex : SV_POSITION;
-			};
+            float4 frag (v2f i) : SV_Target
+            {
+                float u = i.uv.x;
+                float v = i.uv.y;
 
-			sampler2D _MainTex;
-			sampler2D _Ascii;
+                float width = 1 / _Strength;
+                u = (1 / _Strength) * (int)(u / (1 / _Strength));
+                v = (1 / _Strength) * (int)(v / (1 / _Strength));
 
-			float4 _MainTex_ST;
+                float4 color = tex2D(_MainTex, float2(u, v));
+                float grey = 1 - dot(color.rgb, float3(0.299, 0.587, 0.114));
 
-			float _EnableAscii;
-			float _Strength;
-			float _AsciiSplit;
-			
-			v2f vert (appdata v)
-			{
-				v2f o;
-				o.vertex = UnityObjectToClipPos(v.vertex);
-				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-				return o;
-			}
-			
-			float4 frag (v2f i) : SV_Target
-			{
-				float u = i.uv.x;
-				float v = i.uv.y;
+                grey = floor(grey * _steps) / _steps;
 
-				float width = 1 / _Strength;
+                float3 posterizedColor = tex2D(_Recolor, float2(1 - grey, 0.5)).rgb;
 
-				u = (1 / _Strength) * (int)(u / (1 / _Strength));
-				v = (1 / _Strength) * (int)(v / (1 / _Strength));
+                if (_EnableAscii > 0.5)
+                {
+                    float u_offset = (i.uv.x - u) / width;
+                    float v_offset = (i.uv.y - v) / width;
 
-				float4 color = tex2D(_MainTex, float2(u, v));
-				float grey = 1 - dot(color.rgb, fixed3(0.22, 0.707, 0.071));
-				
-				if (1 - _EnableAscii)
-					return float4(1 - grey.xxx, 1);
+                    float g_index = round(grey * (_AsciiSplit - 1));
+                    float ascii_offset = (1 / _AsciiSplit) * g_index;
 
-				float u_offset = (i.uv.x - u) / width;
-				float v_offset = (i.uv.y - v) / width;
+                    float2 ascii_uv = float2(ascii_offset + u_offset / _AsciiSplit - 0.0001, v_offset);
+                    float4 ascii_color = tex2D(_Ascii, ascii_uv);
 
-				float g_index = round(grey * (_AsciiSplit - 1));
-				float ascii_offset = (1 / _AsciiSplit) * g_index;
+                    return float4(ascii_color.rgb * posterizedColor, 1.0);
+                }
 
-				float2 ascii_uv = float2(ascii_offset + u_offset / _AsciiSplit - 0.0001, v_offset);
-
-				float4 ascii_color = tex2D(_Ascii, ascii_uv);
-				// float4 ascii_color = tex2D(_Ascii, float2(u_offset / 18, v_offset));
-
-				return ascii_color;
-			}
-			ENDCG
-		}
-	}
+                return float4(posterizedColor, 1.0);
+            }
+            ENDCG
+        }
+    }
 }
