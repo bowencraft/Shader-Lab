@@ -3,12 +3,21 @@
     Properties {
         _colorA ("color a", Color) = (1, 1, 1, 1)
         _colorB ("color b", Color) = (1, 1, 1, 1)
+        _stencilRef ("Stencil Ref", Int) = 1
     }
 
     SubShader
     {
         Tags { "Queue" = "Geometry" }
         
+        Cull Front
+        
+        Stencil
+        {
+            Ref [_stencilRef]
+            Comp always
+            Pass replace
+        }
 
         // nothing new below
         Pass

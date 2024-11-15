@@ -1,12 +1,13 @@
 ﻿Shader "examples/week 11/depth intersection"
 {
     Properties {
-
+        _size ("Size", Range(0.1,1)) = (1,1,1)
     }
 
     SubShader
     {
-
+        Tags{"Queue"="Transparent"}
+        Cull Off
         
         Pass
         {

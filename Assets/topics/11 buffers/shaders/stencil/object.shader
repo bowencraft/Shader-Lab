@@ -7,12 +7,19 @@
         _diffuseLightSteps ("diffuse light steps", Int) = 4
         _specularLightSteps ("specular light steps", Int) = 2
         _ambientColor ("ambient color", Color) = (0.7, 0.05, 0.15)
+        
+        _stencilRef ("stencil ref", Int) = 1
 
     }
     SubShader
     {
         Tags { "LightMode"="ForwardBase" "Queue" = "Geometry" }
 
+        Stencil
+        {
+            Ref [_stencilRef]
+            Comp Equal
+        }
         
         // nothing new below
         Pass

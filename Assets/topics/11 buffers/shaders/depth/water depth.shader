@@ -15,6 +15,10 @@
     {
         Tags { "RenderType"="Opaque" "Queue" = "Geometry+1"}
         
+        GrabPass
+        {
+            "_BackgroundTex"
+        }
 
         Pass
         {
@@ -25,6 +29,7 @@
 
             // get depth texture and background grab pass texture
             sampler2D _CameraDepthTexture;
+            sampler2D _BackgroundTex;
             
             float3 _color;
             float _scale;

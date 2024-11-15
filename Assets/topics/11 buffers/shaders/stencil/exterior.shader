@@ -11,6 +11,11 @@
     SubShader
     {
         Tags { "Queue"="Geometry" }
+        
+        Stencil{
+            Ref 0
+            Comp Equal
+        }
 
 
         // nothing new below

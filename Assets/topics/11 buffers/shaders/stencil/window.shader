@@ -1,11 +1,26 @@
 ﻿Shader "examples/week 11/window"
 {
     Properties {
-
+        _StencilRef ("Stencil Ref", Int) = 1
     }
 
     SubShader
     {
+//        ZTest Always
+        Tags {"Queue"="Geometry-1"}
+        ZWrite Off
+        ColorMask 0
+        Cull off
+        
+        Stencil
+        {
+            Ref [_StencilRef]
+            
+            Comp Always // always pass
+            Pass Replace // replace the value
+            
+//            Comp Greater // only pass if the value is greater
+        }
 
         // nothing new below
         Pass
