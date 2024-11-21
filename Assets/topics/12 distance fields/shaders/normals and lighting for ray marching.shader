@@ -60,6 +60,7 @@
             float get_dist (float3 pos) {
                 // this defines the scene
                 float t = _Time.y;
+                pos = pos * 0.5;
 
                 const int objectCount = 6;
                 float distances[objectCount];
@@ -101,16 +102,36 @@
                 return marchDist;
             }
 
+            float3 get_normal (float3 pos )
+            {
+                // return float3 (0,1,0);
+
+                float distAtPos = get_dist(pos);
+                float sampleDelta = 0.01;
+                float3 sampleVec = float3 (
+                    get_dist( pos + float3(sampleDelta, 0, 0) ) ,
+                    get_dist( pos + float3(0, sampleDelta, 0) ) ,
+                    get_dist( pos + float3(0, 0, sampleDelta) ) 
+                    );
+
+                float3 normal = normalize(sampleVec - distAtPos);
+                // return float3(0,1,0);
+                return normal;
+            }
+
             float4 frag (Interpolators i) : SV_Target
             {
                 float3 color = 0;
-                float3 normal = float3(0,1,0);
+
+
+                
+                // float3 normal = float3(0,1,0);
 
                 float3 camPos = _WorldSpaceCameraPos;
                 float3 rayDir = normalize(i.hitPos - camPos);
                 float d = ray_march(camPos, rayDir);
 
-
+                float3 normal = get_normal(camPos + rayDir * d);
 
                 // half lambert lighting
                 float3 lightDirection = _WorldSpaceLightPos0;
@@ -123,6 +144,8 @@
                 // constrain lighting values to distances that are less than max (only where we hit something)
                 diffuse *= 1-step(MAX_DIST, d);
 
+                // clip(MAX_DIST - 0.1 - d);
+                
                 color = diffuse;
                 return float4(color, 1.0);
             }

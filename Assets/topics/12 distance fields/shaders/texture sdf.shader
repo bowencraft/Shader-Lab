@@ -2,6 +2,11 @@
 {
     Properties {
         [NoScaleOffset]_tex ("texture", 2D) = "white" {}
+        
+        _threshold ("thresold", Range(0, 1)) = 0.5
+        _softness ("softness", Range(0, 1)) = 0.1
+        _outlineThreshold ("outline Threshold", Range(0, 1)) = 1
+        
     }
 
     SubShader
@@ -18,6 +23,9 @@
             #include "UnityCG.cginc"
 
             sampler2D _tex;
+            float _threshold;
+            float _softness;
+            float _outlineThreshold;
 
             struct MeshData
             {
@@ -45,7 +53,14 @@
 
                 float df = tex2D(_tex, i.uv).r;
 
-                color = df.rrr;
+                float shape = smoothstep(_threshold, _threshold * _softness, df);
+
+                float outline = smoothstep(_outlineThreshold, _outlineThreshold * _softness, df);
+
+                
+                // color = shape;
+                color = step(0.5, outline);
+                // color = df.rrr;
                 return float4(color, 1);
             }
             ENDCG

@@ -35,6 +35,15 @@
             {
                 float3 color = 0;
                 float2 uv = i.uv * 2 - 1;
+
+                // float d = length(uv);
+
+                float radius = 0.66;
+                float d = length(uv) - radius;
+                // float 
+
+                color = d;
+                
                 
 
                 return float4(color, 1.0);

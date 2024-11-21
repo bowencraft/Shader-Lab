@@ -1,6 +1,7 @@
 ﻿Shader "examples/week 12/metaballs"
 {
     Properties {
+        _smoothness ("Smoothness", Range(0.001,1)) = 0.3
 
     }
 
@@ -18,6 +19,8 @@
             #define MAX_STEPS 100
             #define MAX_DIST 10
             #define MIN_DIST 0.001
+
+            float _smoothness;
 
 
             struct MeshData
@@ -41,10 +44,28 @@
                 o.uv = v.uv;
                 return o;
             }
+            
+            float sdf_sphere (float3 spherePos, float radius, float3 pos) {
+                return distance(spherePos, pos) - radius;
+                
+            }
+
+            float smin (float a, float b)
+            {
+                float k = 0.1;
+                float h  = max(k - abs (a - b), 0.0) / k;
+                return min(a,b) - h*h*h*k*(1.0/6.0);
+            }
 
             float get_dist (float3 pos) {
-                return 0;
+                float t = _Time.y;
+                float s1 = sdf_sphere(float3(sin(t), -cos(t), 0) * 0.8, 0.75, pos);
+                float s2 = sdf_sphere(float3(0, -sin(t), cos(t)) * 0.7, 0.6, pos);
+                float s3 = sdf_sphere(pow(float3(-cos(t), sin(t), cos(t)), 5) * 0.5, 0.5, pos);
+
+                return min(min(s1,s2),s3);
             }
+
 
             float ray_march (float3 rayOrigin, float3 rayDir) {
                 // keep track of the total distance we've traveled
