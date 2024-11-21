@@ -9,6 +9,7 @@
         _surfaceIntersectionSize ("surface intersection size", Range(0, 1)) = 0.1
         _depthFog ("depth fog", Range(0, 2)) = 0.1
         _opacity ("opacity", Range(0,1)) = 0.8
+        _stencilRef ("stencil reference", Int) = 1
     }
 
     SubShader
@@ -18,6 +19,12 @@
         GrabPass
         {
             "_BackgroundTex"
+        }
+        
+        Stencil
+        {
+            Ref [_stencilRef]
+            Comp Equal
         }
 
         Pass
@@ -93,7 +100,33 @@
                 // calculate screenUV coordinates
                 float2 screenUV = i.screenPos.xy / i.screenPos.w;
 
+                // intersection
+                float depth = Linear01Depth(tex2D(_CameraDepthTexture, screenUV)).r;
+                float depthDifference = abs((depth/_ProjectionParams.w) - i.surfZ);
+                // float intersection = 1-smoothstep (0, _surfaceIntersectionSize, depthDifference);
 
+                // intersection = pow(intersection, 7);
+                // intersection *= lerp(intersection, (sin((intersection * 10) - _Time.y * 2) * 0.5 + 0.5), 1-intersection);
+
+
+                float intersection = sin( 3.1415* frac( (1-smoothstep(0, _surfaceIntersectionSize, depthDifference ) ) ) ) ;
+
+                float2 distortedScreenUV = screenUV + (float2(0.1, 0.4) * (w * i.normal.y) * _refractionIntensity);
+
+                float3 background = tex2D(_BackgroundTex, distortedScreenUV);
+
+                float distortedDepth = Linear01Depth(tex2D(_CameraDepthTexture, distortedScreenUV));
+                float distortedDepthDifference = abs((distortedDepth/_ProjectionParams.w) - i.surfZ);
+                float underwaterDepth = 1-smoothstep (0, _depthFog, distortedDepthDifference);
+
+                background *= underwaterDepth;
+
+                color = saturate(color + background * 0.5 * (1-_opacity));
+
+                color += smoothstep(0.1, 0.2, intersection) * 0.5;
+                color = saturate(color);
+                
+                // color = background;
                 return float4(color, 1.0);
             }
             ENDCG

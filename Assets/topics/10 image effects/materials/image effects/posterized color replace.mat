@@ -28,7 +28,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _recolor:
-        m_Texture: {fileID: 2800000, guid: 0a573741ac8244b3b99e34a4314c5f90, type: 3}
+        m_Texture: {fileID: 2800000, guid: 781154c89a7a54e3fa35c189cd771fa7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -36,7 +36,7 @@ Material:
     - _diffuseLightSteps: 4
     - _gloss: 1
     - _specularLightSteps: 2
-    - _steps: 4.3
+    - _steps: 8
     m_Colors:
     - _ambientColor: {r: 0.7, g: 0.05, b: 0.15, a: 1}
     - _surfaceColor: {r: 0.4, g: 0.1, b: 0.9, a: 1}

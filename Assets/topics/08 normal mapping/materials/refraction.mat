@@ -8,8 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: refraction
-  m_Shader: {fileID: 4800000, guid: 62adc40e33ef44bb7a98bcc1e9fd8a95, type: 3}
-  m_Parent: {fileID: 0}
+  m_Shader: {fileID: 4800000, guid: e8ad345e1e43d48f099d6c79314a1dba, type: 3}
+  m_Parent: {fileID: 2100000, guid: d866d3dbd286f46508a5dd0fdff5a9e5, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -23,6 +23,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _IBL:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _albedo:
         m_Texture: {fileID: 2800000, guid: cb16b24b36b9b44dab621abffe21b776, type: 3}
         m_Scale: {x: 3, y: 3}
@@ -40,11 +44,6 @@ Material:
     - _displacementIntensity: 0.075
     - _gloss: 0.936
     - _normalIntensity: 0.201
-    - _opacity: 0.571
-    - _refractionIntensity: 0.138
-    - _specularContrast: 32
-    - _specularIntensity: 1
-    m_Colors:
-    - _color: {r: 0.5235849, g: 0.70769066, b: 1, a: 1}
-    - _tint: {r: 0.3443396, g: 0.56112236, b: 1, a: 1}
+    - _reflectivity: 0.5
+    m_Colors: []
   m_BuildTextureStacks: []

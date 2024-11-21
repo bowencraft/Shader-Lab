@@ -37,15 +37,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _depthFog: 1.8
-    - _displacement: 0.3
+    - _depthFog: 0.686
+    - _displacement: 0.113
     - _displacementIntensity: 0.5
     - _gloss: 1
     - _normalIntensity: 1
-    - _opacity: 1
-    - _refractionIntensity: 0.2
-    - _scale: 99
-    - _surfaceIntersectionSize: 0.9
+    - _opacity: 0.142
+    - _refractionIntensity: 0.0561
+    - _scale: 10.4
+    - _stencilRef: 1
+    - _surfaceIntersectionSize: 0.163
     m_Colors:
-    - _color: {r: 0.5218211, g: 0.3066038, b: 1, a: 1}
+    - _color: {r: 0.30588233, g: 0.5517923, b: 1, a: 1}
   m_BuildTextureStacks: []

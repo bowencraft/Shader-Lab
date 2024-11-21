@@ -30,6 +30,6 @@ Material:
     - _specularLightSteps: 2
     - _stencilRef: 0
     m_Colors:
-    - _ambientColor: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
-    - _surfaceColor: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 1}
+    - _ambientColor: {r: 0.7, g: 0.05, b: 0.15, a: 1}
+    - _surfaceColor: {r: 0.4, g: 0.1, b: 0.9, a: 1}
   m_BuildTextureStacks: []

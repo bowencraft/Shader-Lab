@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: window a
-  m_Shader: {fileID: 4800000, guid: 1bef17cbbd8fc4d9ba34745039181a03, type: 3}
+  m_Name: image_stencil
+  m_Shader: {fileID: 4800000, guid: 3002e9c203d724d7abb071f3365181a8, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -22,11 +22,20 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _stencilRef: 1
+    - _diffuseLightSteps: 8.98
+    - _gloss: 0.328
+    - _specularLightSteps: 1
     m_Colors:
-    - _colorA: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ambientColor: {r: 0.4811321, g: 0.4811321, b: 0.4811321, a: 1}
+    - _colorA: {r: 0.254717, g: 0.054067295, b: 0.1373218, a: 1}
     - _colorB: {r: 1, g: 1, b: 1, a: 1}
+    - _surfaceColor: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
   m_BuildTextureStacks: []

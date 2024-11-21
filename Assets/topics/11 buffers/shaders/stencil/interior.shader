@@ -3,7 +3,7 @@
     Properties {
         _colorA ("color a", Color) = (1, 1, 1, 1)
         _colorB ("color b", Color) = (1, 1, 1, 1)
-        _stencilRef ("Stencil Ref", Int) = 1
+        _stencilRef ("stencil reference", Int) = 1
     }
 
     SubShader
@@ -15,10 +15,9 @@
         Stencil
         {
             Ref [_stencilRef]
-            Comp always
-            Pass replace
+            Comp Equal   
         }
-
+        
         // nothing new below
         Pass
         {

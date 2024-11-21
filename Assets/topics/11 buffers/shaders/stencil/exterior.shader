@@ -12,11 +12,11 @@
     {
         Tags { "Queue"="Geometry" }
         
-        Stencil{
+        Stencil
+        {
             Ref 0
             Comp Equal
         }
-
 
         // nothing new below
         Pass

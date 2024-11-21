@@ -7,12 +7,19 @@
         _diffuseLightSteps ("diffuse light steps", Int) = 4
         _specularLightSteps ("specular light steps", Int) = 2
         _ambientColor ("ambient color", Color) = (0.7, 0.05, 0.15)
+        _stencilRef ("stencil reference", Int) = 1
     }
     SubShader
     {
         // this tag is required to use _LightColor0
         Tags { "LightMode"="ForwardBase" }
 
+        Stencil
+        {
+            Ref [_stencilRef]
+            Comp Equal
+        }
+        
         Pass
         {
             CGPROGRAM
